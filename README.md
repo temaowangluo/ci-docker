@@ -1,1 +1,4 @@
-golang docker镜像带有mage编译工具
+golang docker CI用镜像
+
+* mage
+* esc
