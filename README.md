@@ -4,6 +4,7 @@
 
 * mage
 * esc
+* rsrc
 
 ## cos
 
