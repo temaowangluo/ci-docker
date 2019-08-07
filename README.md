@@ -6,6 +6,7 @@
 
 * mage
 * esc
+* rsrc
 
 ## qcloud
 
