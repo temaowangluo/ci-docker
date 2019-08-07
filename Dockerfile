@@ -1,6 +1,5 @@
 FROM golang
 RUN go get -u github.com/mjibson/esc
-RUN cd /tmp
-RUN git clone https://github.com/magefile/mage
-RUN cd mage
+RUN go get -u -d github.com/magefile/mage
+WORKDIR $GOPATH/src/github.com/magefile/mage
 RUN go run bootstrap.go
