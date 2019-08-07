@@ -4,6 +4,7 @@ COPY ./qcloud/ .
 RUN go build -o build/cdn ./cdn/main.go
 
 FROM python:3
+RUN apt-get update && apt-get install zip
 RUN pip install coscmd
 COPY --from=builder /app/build/cdn .
 RUN chmod +x ./cdn
