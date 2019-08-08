@@ -6,5 +6,7 @@ RUN go build -o build/cdn ./cdn/main.go
 FROM python:3
 RUN apt-get update && apt-get install zip
 RUN pip install coscmd
+RUN mkdir -p /app
+WORKDIR /app
 COPY --from=builder /app/build/cdn .
 RUN chmod +x ./cdn
