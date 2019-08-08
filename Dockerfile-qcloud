@@ -8,5 +8,5 @@ RUN apt-get update && apt-get install zip
 RUN pip install coscmd
 RUN mkdir -p /app
 WORKDIR /app
-COPY --from=builder /app/build/cdn-cli /usr/local/bin/cdncmd
+COPY --from=builder /app/build/cdncmd /usr/local/bin/cdncmd
 RUN chmod +x /usr/local/bin/cdncmd
