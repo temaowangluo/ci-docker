@@ -48,7 +48,7 @@ func main() {
 	case "refresh":
 		Refresh()
 	default:
-		log.Fatal("不支持的命令")
+		flag.PrintDefaults()
 	}
 
 }
