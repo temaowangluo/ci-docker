@@ -33,20 +33,30 @@ type (
 	}
 )
 
+var (
+	secretId = os.Getenv("COS_SECRET_ID")
+	action = flag.String("action", "", "执行的动作")
+	addr = flag.String("addr", "", "刷新地址")
+	isDirectory = flag.Bool("dir", false, "是否是目录")
+)
 
 func main() {
 	// 初始化参数
-	secretId := os.Getenv("COS_SECRET_ID")
-	addr := flag.String("addr", "", "刷新地址，/结尾表示目录")
 	flag.Parse()
 
-	if *addr == "" {
-		log.Fatal("请设置刷新目录")
-		return
+	switch *action {
+	case "refresh":
+		Refresh()
+	default:
+		log.Fatal("不支持的命令")
 	}
 
-	// 是否是刷新目录
-	isDirectory := strings.HasSuffix(*addr, "/")
+}
+
+func Refresh() {
+	if *addr == "" {
+		log.Fatal("请设置刷新地址")
+	}
 
 	addrResult := *addr
 	nonce := fmt.Sprintf("%06v", rand.New(rand.NewSource(time.Now().UnixNano())).Int31n(1000000))
@@ -55,7 +65,7 @@ func main() {
 	timestampStr := strconv.FormatInt(timestamp, 10)
 	params := url.Values{}
 
-	if isDirectory {
+	if *isDirectory {
 		params.Set("Action", "RefreshCdnDir")
 		params.Set("dirs.0", addrResult)
 	} else {
@@ -75,19 +85,16 @@ func main() {
 		_ = resp.Body.Close()
 	}()
 	if err != nil {
-		log.Println(err)
-		return
+		log.Fatal(err)
 	}
 	r, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Println(err)
-		return
+		log.Fatal(err)
 	}
 
 	result := Msg{}
 	if err = json.Unmarshal(r, &result); err != nil {
-		log.Println(err)
-		return
+		log.Fatal(err)
 	}
 	if result.Code != 0 {
 		log.Fatal(result.Code)
