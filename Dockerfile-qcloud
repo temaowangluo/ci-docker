@@ -1,12 +1,12 @@
 FROM golang AS builder
 WORKDIR /app
 COPY ./qcloud/ .
-RUN go build -o build/cdn-cli ./cdn/main.go
+RUN go build -o build/cdncmd ./cdn/main.go
 
 FROM python:3
 RUN apt-get update && apt-get install zip
 RUN pip install coscmd
 RUN mkdir -p /app
 WORKDIR /app
-COPY --from=builder /app/build/cdn-cli /usr/local/bin/cdn-cli
-RUN chmod +x /usr/local/bin/cdn-cli
+COPY --from=builder /app/build/cdn-cli /usr/local/bin/cdncmd
+RUN chmod +x /usr/local/bin/cdncmd
