@@ -14,3 +14,7 @@
 
 * cos cli
 * cdn刷新
+
+## prerender
+
+web预渲染 云函数服务

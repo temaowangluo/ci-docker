@@ -1,0 +1,7 @@
+FROM node:12
+
+WORKDIR /app
+RUN npm i prerender-node --save
+RUN mkdir -p /app/static
+
+COPY ./prerender/index.js /app/index.js
